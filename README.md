@@ -7,3 +7,7 @@ The end points were as follows
 
 - ``@post:/event`` insert an event
 - ``@get:/event`` find the mean amount of events placed in the last 60 seconds
+
+To run the code:
+
+``mvn spring-boot:run``

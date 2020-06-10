@@ -44,7 +44,6 @@ public class TestController {
     public Map<String, Object>  getLastSixty(){
         long currentTime = System.currentTimeMillis();
         Map<String, Object> response = new HashMap<>();
-        System.out.println(eventService.getLastSixtySeconds(currentTime));
         double mean = eventService.eventMeanAmount(eventService.getLastSixtySeconds(currentTime));
         response.put("average", mean);
         response.put("status", 200);
