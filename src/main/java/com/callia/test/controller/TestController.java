@@ -2,7 +2,7 @@ package com.callia.test.controller;
 
 import com.callia.test.Event;
 import com.callia.test.service.EventService;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,7 +14,7 @@ import static com.callia.test.EventList.SIXTY_SECONDS;
 @RestController
 public class TestController {
 
-    @MockBean
+    @Autowired
     EventService eventService;
 
     @GetMapping("/")
