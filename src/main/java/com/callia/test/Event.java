@@ -43,6 +43,6 @@ public class Event {
 
     @Override
     public String toString() {
-        return eventId + "" + orderAmount + timestamp;
+        return "eventId:"+ eventId + ", orderAmount:" + orderAmount + ", timestamp:" + timestamp;
     }
 }

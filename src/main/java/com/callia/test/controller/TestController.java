@@ -2,7 +2,7 @@ package com.callia.test.controller;
 
 import com.callia.test.Event;
 import com.callia.test.service.EventService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,7 +14,7 @@ import static com.callia.test.EventList.SIXTY_SECONDS;
 @RestController
 public class TestController {
 
-    @Autowired
+    @MockBean
     EventService eventService;
 
     @GetMapping("/")
@@ -28,14 +28,13 @@ public class TestController {
         eventService.addEvent(event);
         Map<String, Object> response = new HashMap<>();
         long currentTime = System.currentTimeMillis();
-        long inLastSixtySecs = - SIXTY_SECONDS;
+        long inLastSixtySecs = currentTime - SIXTY_SECONDS;
         if(event.getTimestamp() > inLastSixtySecs && event.getTimestamp() <= currentTime)
-            response.put("status", 201);
+            response.put("status", 201);  //event is not older than 60s
         else if (event.getTimestamp() < inLastSixtySecs)
-            response.put("status", 204);
+            response.put("status", 204);  // event is more than 60s in the past
         else
-            response.put("status", 400);
-//        System.out.println(eventService);
+            response.put("status", 400);  // event is in the future, bad request
         return response;
     }
 
