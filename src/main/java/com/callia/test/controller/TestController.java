@@ -28,7 +28,7 @@ public class TestController {
         eventService.addEvent(event);
         Map<String, Object> response = new HashMap<>();
         long currentTime = System.currentTimeMillis();
-        long inLastSixtySecs = - SIXTY_SECONDS;
+        long inLastSixtySecs = currentTime - SIXTY_SECONDS;
         if(event.getTimestamp() > inLastSixtySecs && event.getTimestamp() <= currentTime)
             response.put("status", 201);
         else if (event.getTimestamp() < inLastSixtySecs)
