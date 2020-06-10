@@ -27,8 +27,9 @@ public class TestController {
     public Map<String, Object> postEvent(@RequestBody Event event){
         eventService.addEvent(event);
         Map<String, Object> response = new HashMap<>();
-        long inLastSixtySecs = /*System.currentTimeMillis()*/ 1591765780000L - SIXTY_SECONDS;
-        if(event.getTimestamp() > inLastSixtySecs && event.getTimestamp() <= 1591765780000L)
+        long currentTime = System.currentTimeMillis();
+        long inLastSixtySecs = - SIXTY_SECONDS;
+        if(event.getTimestamp() > inLastSixtySecs && event.getTimestamp() <= currentTime)
             response.put("status", 201);
         else if (event.getTimestamp() < inLastSixtySecs)
             response.put("status", 204);
@@ -41,7 +42,7 @@ public class TestController {
     @GetMapping(value = "/event", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public Map<String, Object>  getLastSixty(){
-        long currentTime = 1591765780000L; //System.currentTimeMillis();
+        long currentTime = System.currentTimeMillis();
         Map<String, Object> response = new HashMap<>();
         System.out.println(eventService.getLastSixtySeconds(currentTime));
         double mean = eventService.eventMeanAmount(eventService.getLastSixtySeconds(currentTime));
