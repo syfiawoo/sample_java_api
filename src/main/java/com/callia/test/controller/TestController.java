@@ -2,6 +2,9 @@ package com.callia.test.controller;
 
 import com.callia.test.Event;
 import com.callia.test.service.EventService;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -14,16 +17,27 @@ import static com.callia.test.EventList.SIXTY_SECONDS;
 @RestController
 public class TestController {
 
-    @Autowired
-    EventService eventService;
+    private EventService eventService;
 
-    @GetMapping("/")
+    @Autowired
+    public void setEventService(EventService eventService) {
+        this.eventService = eventService;
+    }
+
+    @GetMapping(value = "/", produces = MediaType.TEXT_HTML_VALUE)
+    @ApiOperation(value = "Default landing page")
     public String index(){
         return "Welcome to Seth's implementation! :)";
     }
 
     @PostMapping(value = "/event", produces = MediaType.APPLICATION_JSON_VALUE )
     @ResponseBody
+    @ApiOperation(value = "Adds an order event", response = Map.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Successfully added item"),
+            @ApiResponse(code = 204, message = "Event is older than sixty seconds"),
+            @ApiResponse(code = 400, message = "Event does not have a valid timestamp"),
+    })
     public Map<String, Object> postEvent(@RequestBody Event event){
         eventService.addEvent(event);
         Map<String, Object> response = new HashMap<>();
